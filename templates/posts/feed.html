@@ -6,32 +6,33 @@
     <div class="container mt-6 ">
         <br>
         {% for post in posts %}
-            <div class="col-lg-4 offset-lg-4 mt-4 card border-dark mb-3">
-                <div class="d-flex flex-row card-header">
-                    <div class="p-2 col-lg-3 align-self-center">
-                        <img
-                                class="rounded d-block m-l-none rounded-circle img-fluid"
-                                src="{{ post.user.picture }}"
-                                alt="{{ post.user.name }}"
-                        />
-                    </div>
-                    <div class="p-2 align-self-center">
-                       <div class="d-flex flex-column">
-                            <h5 class="m-0">{{ post.user.name }}</h5>
-                            <small class="m-0 p-0 small">{{ post.user.nickname }}</small>
-                            <small class="m-0">{{ post.timestamp }}</small>
+            <div class="col-lg-4 offset-lg-4 mt-4 mb-3">
+                <div class="shadow p-3 mb-5 bg-body rounded">
+                    <div class="d-flex flex-row card-header">
+                        <div class="p-2 col-lg-3 align-self-center">
+                            <img
+                                    class="rounded d-block m-l-none rounded-circle img-fluid"
+                                    src="{{ post.user.picture }}"
+                                    alt="{{ post.user.name }}"
+                            />
+                        </div>
+                        <div class="p-2 align-self-center">
+                            <div class="d-flex flex-column">
+                                <h5 class="m-0">{{ post.user.name }}</h5>
+                                <small class="m-0 p-0 small">{{ post.user.nickname }}</small>
+                                <small class="m-0">{{ post.timestamp }}</small>
+                            </div>
                         </div>
                     </div>
+                    <div class="media-body ">
+                        <img
+                                class="img-fluid border rounded"
+                                src="{{ post.photo }}"
+                                alt="{{ post.title }}"
+                        />
+                        <h4 class="ml-1 mt-1">{{ post.title }}</h4>
+                    </div>
                 </div>
-                <div class="media-body ">
-                    <img
-                            class="img-fluid border rounded"
-                            src="{{ post.photo }}"
-                            alt="{{ post.title }}"
-                    />
-                    <h4 class="ml-1 mt-1">{{ post.title }}</h4>
-                </div>
-
             </div>
         {% endfor %}
     </div>

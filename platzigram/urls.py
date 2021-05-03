@@ -15,18 +15,30 @@ Including another URLconf
 """
 # Django
 from django.contrib import admin
-
-from django.contrib import admin
 from django.urls import path
+from django.shortcuts import redirect
+
+# Platzigram
 from platzigram import views as local_views
-from posts import views as post_views
+from posts import views as posts_views
+from users import views as users_views
+
 #view media
 from django.conf.urls.static import static
 from django.conf import settings
+
 urlpatterns = [
+    path('', users_views.login_view),
     path('admin/', admin.site.urls),
-    path('hello-word/', local_views.hello_word),
-    path('sorted/', local_views.sort_integers),
-    path('hi/<str:name>/<int:age>', local_views.say_hi),
-    path('posts/', post_views.list_post),
+    path('hello-word/', local_views.hello_word, name='hello_world'),
+    path('sorted/', local_views.sort_integers, name='sort'),
+    path('hi/<str:name>/<int:age>', local_views.say_hi, name='hi'),
+
+    path('posts/', posts_views.list_post, name='feed'),
+
+    path('users/login/', users_views.login_view, name='login'),
+    path('users/logout/', users_views.logout_view, name='logout'),
+
+    path('users/signup/', users_views.signup_view, name='signup'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

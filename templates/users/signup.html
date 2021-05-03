@@ -1,0 +1,43 @@
+{% extends "users/base.html" %}
+{% block head_content %}
+    <title>Platzigram Signup</title>
+{% endblock %}
+{% block container %}
+    <h4 class="align-self-center text-center">Sign Up</h4>
+    {% if error %}
+        <div class="p-3 mb-2 bg-danger text-white text-center">{{ error }}</div>
+
+    {% endif %}
+    <form method="POST" action="{% url "signup" %}">
+        {% csrf_token %}
+
+        <div class="mb-3 form-group">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" id="username" required/>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" id="password" required/>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="confirm_password" class="form-label">Confirm Password</label>
+            <input type="password" name="confirm_password" class="form-control" id="confirm_password" required/>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="first_name" class="form-label">First name</label>
+            <input type="text" name="first_name" class="form-control" id="first_name"/>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="last_name" class="form-label">Last name</label>
+            <input type="text" name="last_name" class="form-control" id="last_name"/>
+        </div>
+        <div class="mb-3 form-group">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" id="email" required/>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </form>
+        <a class="text-center align-self-center mt-2" href="{% url "login" %}">go back</a>
+{% endblock %}
