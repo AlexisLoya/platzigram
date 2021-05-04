@@ -8,6 +8,8 @@ import pdb
 #Model
 from django.contrib.auth.models import User
 from users.models import Profile
+from users.forms import ProfileForm
+
 #Exceptions
 from django.db.utils import IntegrityError
 
@@ -63,3 +65,32 @@ def signup_view(request):
         profile.save()
 
     return render(request,'users/signup.html')
+
+@login_required
+def update_profile(request):
+    """update a user's profile view"""
+    profile = request.user.profile
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            updated_data = form.cleaned_data
+            profile.website = updated_data['website']
+            profile.phone_number = updated_data['phone_number']
+            profile.biography = updated_data['biography']
+            profile.picture = updated_data['picture']
+            #save
+            profile.save()
+            return redirect('update_profile')
+    else:
+        form = ProfileForm()
+
+    return render(
+        request=request,
+        template_name='users/update_profile.html',
+        context={
+            'profile':profile,
+            'user':request.user,
+            'form':form
+            }
+    )

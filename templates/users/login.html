@@ -19,12 +19,9 @@
             <label for="password" class="form-label">Password</label>
             <input type="password" name="password" class="form-control" id="password"/>
         </div>
-        <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
+
         <button type="submit" class="btn btn-primary btn-block">Sign in</button>
     </form>
-    <a class="text-center align-self-center mt-2" href="{% url "signup" %}">signup</a>
+    <a class="btn btn-primary btn-lg mt-2 align-self-center" href="{% url "signup" %}">signup</a>
 {% endblock %}
 
