@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-^1jcog$h^lt)(%hmh993iqj=n2jyxzf1ty4_4^^xav_t4r(6!u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['c0a996579920.ngrok.io', '127.0.0.1']
 
 
 # Application definition
@@ -142,3 +142,7 @@ MEDIA_URL = '/media/'
 
 #Validate session
 LOGIN_URL = '/users/login/'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL

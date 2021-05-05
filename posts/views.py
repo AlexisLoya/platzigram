@@ -1,12 +1,15 @@
 """Post views"""
-#Django
+# Django
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, DetailView, CreateView
 from django.shortcuts import render, redirect
+from django.urls import reverse, reverse_lazy
 # Utilities
 from datetime import datetime
-#Models
+# Models
 from posts.models import Post
-#Forms
+# Forms
 from posts.forms import PostForm
 old_posts = [
     {
@@ -52,27 +55,62 @@ old_posts = [
     }
 ]
 
+
+class PostFeedView(LoginRequiredMixin, ListView):
+    """Return all published posts"""
+
+    template_name = 'posts/feed.html'
+    model = Post
+    ordering = ('-created')
+    paginate_by = 5
+    context_object_name = 'posts'
+
+
+class PostDetailView(LoginRequiredMixin, DetailView):
+    """Post detail """
+    template_name = 'posts/detail.html'
+    slug_field = 'id'
+    slug_url_kwarg = 'post_id'
+    queryset = Post.objects.all()
+
+
+class CreatePostview(LoginRequiredMixin, CreateView):
+    """Create a new post"""
+    template_name = 'posts/new.html'
+    form_class = PostForm
+    success_url = reverse_lazy('posts:feed')
+
+    def get_context_data(self, **kwargs):
+        """Add user an profile to context"""
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        context['profile'] = self.request.user.profile
+        return context
+
+
 @login_required
 def list_post(request):
     posts = (Post.objects.all().order_by('-created'))
     return render(request, 'posts/feed.html', {'posts': posts})
-@login_required
-def create_post(request):
-    """Create a new post view"""
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('feed')
-    else:
-        form = PostForm()
 
-    return render(
-        request=request,
-        template_name='posts/new.html',
-        context={
-            'form':form,
-            'user':request.user,
-            'profile':request.user.profile
-        }
-    )
+
+# @login_required
+# def create_post(request):
+#     """Create a new post view"""
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('posts:feed')
+#     else:
+#         form = PostForm()
+
+#     return render(
+#         request=request,
+#         template_name='posts/new.html',
+#         context={
+#             'form':form,
+#             'user':request.user,
+#             'profile':request.user.profile
+#         }
+#     )
